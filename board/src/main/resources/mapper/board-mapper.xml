@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.example.demo.board.mapper.BoardMapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <insert id="insertBoard">
+ insert into board
+ 			(BOARD_NO
+			,TITLE
+			,CONTENT
+			,WRITER
+			,WRITE_DATE
+			,CLICK_CNT
+			,IMAGE)
+		values (
+			#{boardNo}
+			,#{title}
+			,#{content}
+			,#{writer}
+			,#{writeDate}
+			,#{clickCnt}
+			,#{image}
+		
+		)		
+ </insert>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </mapper>
