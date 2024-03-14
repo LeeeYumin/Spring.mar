@@ -15,7 +15,7 @@ public class EmpMapperTest {
 
 	@Autowired EmpMapper mapper;
 	
-	@Test
+	//@Test
 	public void 사원통계() {	
 		List<Map<String,Object>>list = mapper.getStat();
 		//for departmnetId cnt 만 출력
@@ -25,13 +25,13 @@ public class EmpMapperTest {
 		//System.out.println(list);
 	}
 	
-	//@Test
+	@Test
 	public void 사원등록() {
 		//vo 객체 생성
 		EmpVO vo = EmpVO.builder()
 					//.employeeId(301)
 					.lastName("aaaa")
-					.email("a1@a22111.a")
+					.email("7666666zzz@600006.a")
 					.hireDate(new Date())
 					.jobId("IT_PROG")
 					.build();
@@ -58,7 +58,7 @@ public class EmpMapperTest {
 	
 	
 	
-	@Test
+	//@Test
 	public void 사원전체조회() {
 		EmpVO vo = new EmpVO();
 		SearchVO svo = new SearchVO();

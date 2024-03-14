@@ -6,22 +6,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  <insert id="insertBoard">
  insert into board
  			(BOARD_NO
@@ -44,9 +28,7 @@
  </insert>
  
  
- 
- 
- 
+
  
  
  </mapper>

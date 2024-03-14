@@ -28,6 +28,7 @@ public class EmpVO {
 	 String managerId;
 	 String phone; //select 문에 "phone 해돟으면 같을걸로 알아먹음" 아님 map 객체를 만들든가.
 	 
-
-	 
+	 String photo; //2일차 과제로 추가... html에는 name="photo" 하면 안됨 (이름이 같으면 안된다)
+	
+ 
 }
