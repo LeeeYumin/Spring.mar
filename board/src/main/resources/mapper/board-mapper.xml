@@ -3,7 +3,15 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.example.demo.board.mapper.BoardMapper">
 
+<!-- 1일차 과제 -->
 
+<select id="getBoardInfo"
+		parameterType="int"
+		resultType="BoardVO">
+	select *
+	from employees
+	where employee_id = #{employeeId}	
+</select>
 
 
  <insert id="insertBoard">
@@ -22,8 +30,7 @@
 			,#{writer}
 			,#{writeDate}
 			,#{clickCnt}
-			,#{image}
-		
+			,#{image}		
 		)		
  </insert>
  

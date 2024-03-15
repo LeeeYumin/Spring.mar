@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.emp.EmpVO;
+import com.example.demo.emp.SearchVO;
 import com.example.demo.emp.mapper.EmpMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -36,8 +38,9 @@ public class EmpController {
 	 
 	 
 	 @RequestMapping("/empList")	 
-	 public String empList(Model model){
-		 model.addAttribute("empList", mapper.getEmpList(null, null));
+	 public String empList(Model model, EmpVO vo, SearchVO svo){
+		 model.addAttribute("companyName","<i><font color='red'>예담주식회사</font></i>");
+		 model.addAttribute("empList", mapper.getEmpList(vo, svo));
 		 return "empList";  //위의 empList를 model 에 담아 empList로 리턴으로 돌려줌 
 
 	 }
@@ -81,6 +84,18 @@ public class EmpController {
 	 @GetMapping("/") //해당 url을 찾고
 	 public String test() { //페이지를 찾아서
 		 return "index"; // templates(이게 기본값. 여기는 동적 컨텐츠.) 에 가서 index 파일을 찾음
+	 }
+	 
+	 @GetMapping("/update/{empId}")
+	 public String update(@PathVariable int empId) {
+		 System.out.println(empId);
+		 return "index";
+	 }
+	 
+	 @GetMapping("/delete")
+	 public String delete(int employeeId, String name) {
+		 System.out.println(employeeId + " : " + name);
+		 return "index";
 	 }
 	 
 	 

@@ -15,7 +15,7 @@ public interface EmpMapper {
 	EmpVO getEmpInfo(int employeeId); //단건
 	//등록
 	int insertEmp(EmpVO empVO);	
-	//삭제
+	//삭제(수업시간에 개별로 풀어보기)
 	int deleteEmp(int employeeId);
 	
 	List<Map<String,Object>> getStat();

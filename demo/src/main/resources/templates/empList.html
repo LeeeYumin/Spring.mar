@@ -1,22 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ 		layout:decorate="~{layout/layout}"> <!-- {폴더명/파일명} -->
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.firstRow {color : pink;}
+	.oddRow {color : green;}
+	.backColor {background-color : #dbd3d3}
+</style>
 </head>
 <body>
+<div  layout:fragment="content">
+	사원수<span th:text="${#lists.size(empList)}">10</span>명
+	회사명<span th:utext="${companyName}">...</span>
 	<table>
 		 <tr>
+			 <th>No</th>
 			 <th>employee_id</th>
-			 <th>first_name</th>
-			 <th>last_name</th>
-		 </tr> <!-- 컨트롤러에서 돌려주는 model.addAttribute("empList" 이거를 for문. -->
-		<tr th:each="emp : ${empList}">
-			 <td th:text="${emp.employeeId}"></td>
-			 <td th:text="${emp.firstName}"></td>
-			 <td th:text="${emp.lastName}"></td>
-			 <td th:text="${emp.hireDate}"></td>
+			 <th>NAME</th>
+			 <th>hire_date</th>
+			 <th>salary</th>
+			 <th>보너스</th>
+			 <th>currency</th>
+			 <th>수정/삭제</th>
+		 </tr> <!--/* 컨트롤러에서 돌려주는 model.addAttribute("empList" 이거를 for문. */-->
+		<tr th:each="emp,stat : ${empList}" >
+		<!--/* 루프변수 emp, 상태변수 Stat 순 */-->
+		<!--/* 3항 연산자 안에 또 3항 연산 사용 가능 */-->
+			 <td th:text="${ stat.count }" class="backColor" th:classappend="${stat.first? 'firstRow' : stat.odd? 'oddRow' : _ }">1</td>
+			 <td th:text="${emp.employeeId}">100</td>
+			 <td th:text="${emp.firstName} + ' ' + ${emp.lastName}">길동</td>
+<!--/* 			 <td th:text="|${emp.firstName} ${emp.lastName}|">길동</td>
+			 <td> [[${emp.firstName}]] [[${emp.lastName}]]</td> */-->
+			 <!-- /* 타임리프 주석은 이렇게. 이래야 f12 소스에서도 안보임*/ -->
+			 
+			 <td th:text="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}">2010-10-10</td>
+			  <td th:text="${emp.salary}">2,000</td>
+			 <td th:text="${#numbers.formatDecimal(emp.salary,2,0,'POINT')}">2,000</td>
+			 <td th:text="${#numbers.formatCurrency(emp.salary)}">2,000</td>
+			 <td> <button th:if="${emp.salary < 10000}">신청</button>
+			 	<button th:unless="${emp.salary < 10000}">미신청</button>
+			 </td>
+			 <td> <!-- localhost:8081/update/100 -->
+			 	<a th:href="@{/update/{id}(id=${emp.employeeId})}">수정</a>
+			 	<!--/* {id}는 변수. 수정은 컨트롤러랑 달라도 됨. */-->
+			 		<!-- localhost:8081/delete?employeeId=100&name=xxx -->
+			 	<a th:href="@{/delete(employeeId=${emp.employeeId},name=${emp.firstName})}">삭제</a>
+			 	<!--/* delete 변수는 컨트롤러랑 같아야 됨. */-->
+			 </td>			 
 		 </tr>
 	</table>
+	<div class="footerSector"  th:insert="~{footer}"> 여기에 삽입 </div>
+	<!--/* {footer :: addr} 이런식으로 골라서 넣기 가능 */-->
+	<!--/* ${  }  @{  }  ~{  }  차이점 구별 */-->
+	
+	<script th:inline="javascript">
+	let emplist = [[${empList}]]
+	console.log(emplist[0].firstName);
+	</script>
+	</div>
 	</body>
 </html>
