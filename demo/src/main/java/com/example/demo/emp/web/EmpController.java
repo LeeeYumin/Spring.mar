@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.common.Paging;
 import com.example.demo.emp.EmpVO;
 import com.example.demo.emp.SearchVO;
 import com.example.demo.emp.mapper.EmpMapper;
@@ -38,8 +39,18 @@ public class EmpController {
 	 
 	 
 	 @RequestMapping("/empList")	 
-	 public String empList(Model model, EmpVO vo, SearchVO svo){
-		 model.addAttribute("companyName","<i><font color='red'>예담주식회사</font></i>");
+	 public String empList(Model model, EmpVO vo, SearchVO svo, Paging pvo){
+		 //model.addAttribute("companyName","<i><font color='red'>예담주식회사</font></i>");
+		 
+		 //페이징처리 (SearchVO 값 1, 10 되어있는 거 변경)
+		 pvo.setPageUnit(5); //데이터수
+		 pvo.setPageSize(3); //페이지번호
+		 svo.setStart(pvo.getFirst());
+		 svo.setEnd(pvo.getLast());
+		 pvo.setTotalRecord(mapper.getCount(vo, svo));
+		 model.addAttribute("paging", pvo);  //이 줄은 없어도 됨...
+		 
+		 //목록조회
 		 model.addAttribute("empList", mapper.getEmpList(vo, svo));
 		 return "empList";  //위의 empList를 model 에 담아 empList로 리턴으로 돌려줌 
 
@@ -85,6 +96,14 @@ public class EmpController {
 	 public String test() { //페이지를 찾아서
 		 return "index"; // templates(이게 기본값. 여기는 동적 컨텐츠.) 에 가서 index 파일을 찾음
 	 }
+	 
+	 //empInfo.html
+	 @GetMapping("/info/{empId}")
+	 public String info (@PathVariable int empId, Model model) {
+		 model.addAttribute("emp", mapper.getEmpInfo(empId));
+		 return "index";
+	 }	 
+	 
 	 
 	 @GetMapping("/update/{empId}")
 	 public String update(@PathVariable int empId) {

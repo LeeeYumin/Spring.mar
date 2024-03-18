@@ -20,6 +20,9 @@ public interface EmpMapper {
 	
 	List<Map<String,Object>> getStat();
 	
+	//@Select("select count(*)from employees")
+	public long getCount(EmpVO vo, SearchVO svo);
+	
 		
 	
 
