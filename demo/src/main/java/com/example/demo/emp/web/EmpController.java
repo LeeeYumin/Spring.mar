@@ -78,12 +78,16 @@ public class EmpController {
 		 return new ResponseEntity<>(vo,HttpStatus.OK); // (결과 보낼 데이터타입, 상태값)의 순서...
 	 }
 	 
+	 @GetMapping("/insert")
+	 public void insert() {}
+	 
 	 
 	 
 	 @PostMapping("/insert")
 	 //@ResponseBody // 이거 없으면 api테스트 500에러뜸
 	 public ModelAndView insert (@ModelAttribute("emp") EmpVO vo) {
 		 System.out.println(vo); //vo 찍어보고
+		 empService.insertEmp(vo);
 		 //mapper.insertEmp(vo);
 		 
 		 //커맨드객체는 model 에 추가되고 뷰페이지에 보여줌. 앞은 소문자.
@@ -91,9 +95,9 @@ public class EmpController {
 		 //model.addAttribute("insertResult","success"); //(속성,)
 		 
 		 ModelAndView mv = new ModelAndView();
-		 mv.setViewName("result");
+		 mv.setViewName("home"); //insert 처리 후 / 로 보냄. html 파일 이름 적어주기. view이름.
 		 mv.addObject("insertResult", "success");
-		 mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR); //500번 에러. 상태값도 전달 가능한데 필수는 아님.
+		 //mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR); //500번 에러. 상태값도 전달 가능한데 필수는 아님.
 		 return mv; // return vo로 돌려준다. API테스트 같이해봄 "result" : 페이지명
 	 }
 	 
