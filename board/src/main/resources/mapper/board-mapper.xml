@@ -19,34 +19,67 @@
 	WHERE board_no = #{boardNo}	
 </select>
 
- <insert id="insertBoard"
- 		parameterType="BoardVO">
- 		<selectKey keyProperty="boardNo"
- 					order="BEFORE"
- 					resultType="int">
- 		</selectKey>
- 		
-		 INSERT INTO board
-		 			(
-		 			board_no
-		 			, title
-		 			, content
-		 			, writer
-		 			, write_date
-		 			, click_cnt
-		 			, image
-		 			)
-			VALUES 
-					(
-					#{boardNo}
-					,#{title}
-					,#{content}
-					,#{writer}
-					,#{writeDate}
-					,#{clickCnt}
-					,#{image}		
-					)		
- </insert>
+<select id="getBoardList"
+		resultType="BoardVO">
+	SELECT *
+	FROM (SELECT rownum as rn, a.* from(
+	SELECT board_no
+			, title
+			, content
+			, writer
+			, write_date
+			, click_cnt
+			, image
+	FROM board
+	<where>
+	<if test="vo.title != null and vo.title != ''">
+	title like '%' || #{vo.title} || '%'
+	</if>
+	<if test="vo.content != null and vo.content != ''">
+	AND content like  '%' || #{vo.content} || '%'
+	</if>
+	<if test="vo.writer != null and vo.writer != ''">
+	AND writer like  '%' || #{vo.writer} || '%'
+	</if>
+	</where>
+	ORDER BY board_no
+	<![CDATA[) a where rownu, <= #{svo.end}) b where rn >= #{svo.start}
+	]]>
+</select>
+
+<insert id="insertBoard"
+		parameterType="BoardVO">
+		<selectKey keyProperty="boardNo"
+					order="BEFORE"
+					resultType="int">
+			SELECT board_seq.nextval from dual
+		</selectKey>
+		
+	 INSERT INTO board
+	 			(
+	 			board_no
+	 			, title
+	 			, content
+	 			, writer
+	 			, write_date
+	 			, click_cnt
+	 			<if test="image != null and image != ''">
+	 			, image
+	 			</if>
+	 			)
+		VALUES 
+				(
+				#{boardNo}
+				,#{title}
+				,#{content}
+				,#{writer}
+				,#{writeDate}
+				,#{clickCnt}
+				<if test="image != null and image != ''">
+				,#{image}	
+				</if>	
+				)		
+</insert>
  
 <delete id="deleteBoard"
 		parameterType="int">
@@ -57,10 +90,17 @@
 <update id="updateBoard"
 		parameterType="BoardVO">
 	UPDATE board
-		SET title = #{title}
+		 	title = #{title}
 			, content = #{content}
+			, writer = #{writer}
+			, write_date = #{write_date}
+			, image = #{image}
 	WHERE board_no = #{boardNo}					
 </update> 
 
+<select id="getCount" resultType="Long">
+	SELECT count(*)
+	FROM board
+</select>
  
- </mapper>
+</mapper>

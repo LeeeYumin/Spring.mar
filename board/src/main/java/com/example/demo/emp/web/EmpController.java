@@ -1,5 +1,6 @@
 package com.example.demo.emp.web;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,9 +43,9 @@ public class EmpController {
 	 
 	 //등록처리 --> employees 테이블에 photo 컬럼 추가
 	 @PostMapping("/insert")
-	 public String insert(@ModelAttribute("emp") EmpVO vo, MultipartFile photoFile) {
-		 //파일 업로드
+	 public String insert(@ModelAttribute("emp") EmpVO vo, MultipartFile photoFile) throws IllegalStateException, IOException {
 		 
+		 //파일 업로드(insert 핸들러에 첨부파일 업로드 구현)		 
 		 vo.setPhoto(photoFile.getOriginalFilename());
 		 System.out.println(vo);
 		 mapper.insertEmp(vo);
@@ -56,20 +58,36 @@ public class EmpController {
 		 
 	 }
 	 
-	 
-	 
+	 	 
 	 //수정 처리
-	 
+	 @PostMapping("/update")
+	 public String update(EmpVO vo) {
+		 if(mapper.updateEmp(vo) > 0) {
+			 System.out.println("수정이 완료되었습니다");
+		 }
+		 return "redirect:/emp/list";
+	 }
 	 
 	 
 	 //삭제 처리
-	 
+	 //@GetMapping("/emp/delete/{employeeId}")
+	 @RequestMapping("/delete/{employeeId}")
+	 public String delete(@PathVariable String employeeId) {
+		 EmpVO vo = new EmpVO();
+		 vo.setEmployeeId(Integer.parseInt(employeeId));
+		 if(mapper.deleteEmp(vo) > 0 ) {
+			 System.out.println("삭제되었습니다");
+		 }
+		 return "redirect:/emp/list";		 
+	 }
 	 
 	 //상세조회 페이지 이동
-	 //@GetMapping("/emp/info/{employeeId}")
-	 
-	 
-	 
+	 @GetMapping("/emp/info/{employeeId}")
+	 public String info(@PathVariable String employeeId, Model model) {
+		 model.addAttribute("emp", mapper.getEmpInfo(Integer.parseInt(employeeId)));
+		 System.out.println("조회됨");
+		 return "emp/info";
+	 }	 
 	 
 	 //목록 페이지로 이동
 	 @RequestMapping("/emp/list")	 
@@ -80,9 +98,9 @@ public class EmpController {
 	 }
 	 
 	 
-	 @GetMapping("/") //해당 url을 찾고
-	 public String test() { //페이지를 찾아서
-		 return "index"; // templates(이게 기본값. 여기는 동적 컨텐츠.) 에 가서 index 파일을 찾음
-	 }
+//	 @GetMapping("/") //해당 url을 찾고
+//	 public String test() { //페이지를 찾아서
+//		 return "index"; // templates(이게 기본값. 여기는 동적 컨텐츠.) 에 가서 index 파일을 찾음
+//	 }
 }
 	 
