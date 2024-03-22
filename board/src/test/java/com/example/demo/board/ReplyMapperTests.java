@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.demo.board.mapper.ReplyMapper;
+import com.sam.app.board.mapper.ReplyMapper;
 
 import lombok.Data;
 
