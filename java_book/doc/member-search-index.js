@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"method","c":"MyCalc","l":"minus(int, int)","url":"minus(int,int)"},{"p":"method","c":"MyCalc","l":"minus2(int, int)","url":"minus2(int,int)"},{"p":"method","c":"MyCalc","l":"MyCalc()","url":"%3Cinit%3E()"},{"p":"method","c":"MyCalc","l":"sum(int, int)","url":"sum(int,int)"}]
