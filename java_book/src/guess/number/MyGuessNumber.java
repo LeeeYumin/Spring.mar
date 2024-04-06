@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-//데이터(필드) : 임의의 수, 시도횟수, 입력기록 int[], List<Integer> !!!
+//데이터(필드) : 임의의 수, 시도횟수, 입력기록 int[], List<Integer> !!!!
 //기능(메서드) : 난수생성, 숫자입력, 정답확인
 public class MyGuessNumber {
 	
